@@ -9,7 +9,10 @@ import numpy as np
 import streamlit as st
 
 # 📊 Display Settings
-sns.set(style="whitegrid")
+sns.set(style="dark")
+sns.color_palette("coolwarm")
+sns.set_context("talk")
+sns.despine()
 plt.rcParams['figure.figsize'] = (10, 6)
 
 # 📁 Load Data
@@ -85,11 +88,30 @@ st.pyplot(fig)
 st.markdown("**Insight:** The number of movies released has grown over the years, with a big rise in the 2000s and 2010s.")
 
 # 📉 ROI Distribution
-st.subheader("📊 ROI Distribution")
+st.subheader("📊 ROI Distribution by Movie Rating")
 fig, ax = plt.subplots()
-sns.boxplot(data=filtered_df, x='rating', y='ROI',ax=ax)
+sns.boxplot(data=filtered_df, x='rating', y='ROI', ax=ax)
+ax.set_ylim(0, 500)  # Limit y-axis for clarity
+plt.xticks(rotation=45, ha='right')
 st.pyplot(fig)
-st.markdown("**Insight:** Return on Investment (ROI) shows how profitable a movie was based on how much it earned compared to its budget. Some movies with lower ratings still made a lot of money, which means they were financially successful even if not critically praised.")
+
+st.markdown("""
+**Insight:** This chart compares how profitable movies are based on their **audience rating** (like PG, R, etc.). 
+
+**ROI** stands for **Return on Investment**, which tells us how much money a movie earned compared to what it cost to make. 
+
+For example, a movie with a **ROI of 2** means it earned **2× its cost**, or **200% profit**.
+
+The box plot helps show:
+- The **typical ROI** for each rating (middle line of each box)
+- How much the ROI varies (height of the box and lines)
+- Any **outliers** — movies that made way more (or less) money than others
+
+👉 From the chart, we can see that **R-rated and PG-rated** movies have many high-profit outliers. But most movies, regardless of rating, have ROI under 5 (or 500%). 
+
+To keep things easy to read, we limited the y-axis to 500. Otherwise, a few extreme cases (like a very cheap movie that made a lot of money) stretch the chart too much and hide useful patterns.
+""")
+
 
 # 🧠 Insightful Summary
 st.subheader("🧠 Final Insights")
